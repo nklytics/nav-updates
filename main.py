@@ -58,16 +58,16 @@ df = df.with_columns(
 
 # Data Update
 data = df.drop(["Scheme Name", "ISIN Div Payout/ISIN Growth", "ISIN Div Reinvestment"])
-old_data = pl.read_parquet("Data/NAV 2023(zstd-12).parquet")
+old_data = pl.read_parquet("NAV 2023(zstd-12).parquet")
 pl.concat([old_data, data]).unique().sort(by="Date").write_parquet(
-    "Data/NAV 2023(zstd-12).parquet",
+    "NAV 2023(zstd-12).parquet",
     compression="zstd",
     compression_level=12,
 )
 
 # Code Update
 codes_update = df[["Scheme Code", "Scheme Name"]].unique()
-old_codes = pl.read_parquet("Data/scheme_code.parquet")
+old_codes = pl.read_parquet("scheme_code.parquet")
 pl.concat([old_codes, codes_update]).unique().write_parquet(
-    "Data/scheme_code.parquet", compression="zstd", compression_level=19
+    "scheme_code.parquet", compression="zstd", compression_level=19
 )
